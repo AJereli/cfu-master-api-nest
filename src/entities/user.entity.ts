@@ -13,6 +13,7 @@ import {
 } from 'typeorm';
 
 import { ScientificWorkEntity } from './scientific.work.entity';
+import { UserDto } from '../user/dto/user.dto';
 
 @Entity()
 @Unique(['email'])
@@ -59,17 +60,20 @@ export class UserEntity {
     this.updateDate = new Date();
   }
 
-  // public toDto() {
-  //   const profile = new ProfileDto();
-  //
-  //   profile.department = this.department;
-  //   profile.email = this.email;
-  //   profile.firstname = this.firstname;
-  //   profile.lastname = this.lastname;
-  //   // profile.graduationTheme = this.graduationtheme;
-  //   profile.specialty = this.specialty;
-  //
-  //   return profile;
-  // }
+  public toDto(): UserDto {
+    const profile = new UserDto();
+
+    profile.department = this.department;
+    profile.email = this.email;
+    profile.firstname = this.firstname;
+    profile.lastname = this.lastname;
+    profile.graduationTheme = this.graduationTheme;
+    profile.specialty = this.specialty;
+    profile.createDate = this.createDate;
+    profile.scientificDirector = this.scientificDirector;
+    profile.scientificWorks = this.scientificWorks;
+
+    return profile;
+  }
 
 }

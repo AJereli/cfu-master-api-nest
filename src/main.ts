@@ -17,9 +17,10 @@ async function bootstrap() {
 }
 function setupSwagger(app: INestApplication ) {
   const options = new DocumentBuilder()
-    .setTitle('Headless shop API docs')
-    .setDescription('Headless shop API docs')
-    .setVersion('1.0')
+    .setTitle('Документация по API для проекта cfu-masters')
+    // .setDescription('Headless shop API docs')
+    .setVersion('0.1')
+    .setTermsOfService('Проект для демонтрации внутри кафедры информатики')
     .build();
 
   const document = SwaggerModule.createDocument(app, options);

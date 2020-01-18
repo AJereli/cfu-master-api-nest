@@ -13,6 +13,12 @@ export class ScientificWorkController {
 
   }
 
+  @Get('find')
+  @ApiResponse({ status: 200, description: 'OK', type: ScientificWorkEntity, isArray: true})
+  async find(@Query('text') text: string): Promise<ScientificWorkEntity[]> {
+    return this.workService.findByText(text);
+  }
+
   @Get('findByKeyword')
   @ApiResponse({ status: 200, description: 'OK', type: ScientificWorkEntity, isArray: true})
   async findByKeyWord(@Request() req, @Query('keyword') keyword: string) {

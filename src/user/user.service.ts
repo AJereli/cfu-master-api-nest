@@ -6,6 +6,7 @@ import { LoginPayload } from '../auth/dto/login.payload';
 import { RegistrationDto } from '../auth/dto/registration.dto';
 import { FindUserDto } from './dto/find.user.dto';
 import { StatisticDto } from './dto/statistic.dto';
+import { UserDto } from './dto/user.dto';
 
 @Injectable()
 export class UserService {
@@ -36,20 +37,20 @@ export class UserService {
     return this.userRepository.findOne({email});
   }
 
-  async find(findDto: FindUserDto): Promise<UserEntity[]> {
+  async find(findDto: FindUserDto): Promise<UserDto[]> {
     return this.userRepository.createQueryBuilder('user')
       .where('user.firstname like :name', {name: '%' + findDto.firstName + '%' })
       .orWhere('user.lastname like :lastName', {lastName: '%' + findDto.lastName + '%'})
       .orWhere('user.specialty like :specialty', {specialty: '%' + findDto.specialty + '%' })
-      .getMany();
+      .getMany().then(users => users.map(user => user.toDto()));
   }
 
   async getStatistic() {
-    return await this.userRepository.query('SELECT CONCAT(lastname,\' \', firstname) as full_name, COUNT(swe.id) as total_work_number,\n' +
+    return await this.userRepository.query('SELECT CONCAT(lastname,\' \', firstname) as fullName, COUNT(swe.id) as totalWorkNumber,\n' +
       '       (SELECT DISTINCT COUNT(sws."sourceEntityLink") from scientific_work_entity_sources_source_entity sws\n' +
       '           LEFT JOIN scientific_work_entity as swe2 ON sws."scientificWorkEntityId" = swe2.id\n' +
       '           WHERE swe2."userId" = u.id)\n' +
-      '           as total_used_source\n' +
+      '           as totalUsedSource\n' +
       'FROM user_entity AS u\n' +
       '    LEFT JOIN scientific_work_entity swe ON u.id = swe."userId"\n' +
       '    GROUP BY u.id;');

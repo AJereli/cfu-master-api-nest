@@ -19,6 +19,13 @@ export class ScientificWorkService {
               private readonly sourceRepository: Repository<SourceEntity>) {
   }
 
+  async findByText(text: string): Promise<ScientificWorkEntity[]> {
+    return this.scientificWorkRepository.createQueryBuilder('sw')
+      .where('LOWER(CONCAT_WS(sw.actuals, sw."aimsAndTasks", sw.conclusions,\n' +
+        '        sw.introduction, sw."mainPart", sw.overview, sw."programImplementation")) LIKE :text', {text: `%${text}%`})
+      .getMany();
+  }
+
   async findByKeyWord(keyWord: string): Promise<ScientificWorkEntity[]> {
     const result = await this.keyWordRepository.findOne(
       {

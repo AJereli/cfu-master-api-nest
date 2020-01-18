@@ -1,5 +1,10 @@
+import { ApiProperty } from '@nestjs/swagger';
 
 export class StatisticDto {
-  user: string;
-  numberOfWorks: number;
+  @ApiProperty()
+  fullName: string;
+  @ApiProperty()
+  totalWorkNumber: number;
+  @ApiProperty()
+  totalUsedSource: number;
 }
