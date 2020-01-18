@@ -13,13 +13,24 @@ export class ScientificWorkController {
 
   }
 
-  @Get('find')
-
+  @Get('findByKeyword')
   @ApiResponse({ status: 200, description: 'OK', type: ScientificWorkEntity, isArray: true})
   async findByKeyWord(@Request() req, @Query('keyword') keyword: string) {
     return this.workService.findByKeyWord(keyword);
   }
 
+
+  @Get('findBySource')
+  @ApiResponse({ status: 200, description: 'OK', type: ScientificWorkEntity, isArray: true})
+  async findBySource(@Request() req, @Query('source') source: string) {
+    return this.workService.findBySource(source);
+  }
+
+  // @Get('find')
+  // @ApiResponse({ status: 200, description: 'OK', type: ScientificWorkEntity, isArray: true})
+  // async findBySource(@Request() req, @Query('source') keyword: string) {
+  //   return 'source';
+  // }
 
   @Post()
   async create(@Request() req, @Body() work: WorkDto) {

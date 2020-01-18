@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ScientificWorkEntity } from '../entities/scientific.work.entity';
-import { Repository } from 'typeorm';
+import { Like, Repository } from 'typeorm';
 import { UserEntity } from '../entities/user.entity';
 import { WorkDto } from './dto/work.dto';
 import { KeyWordEntity } from '../entities/key.word.entity';
@@ -14,7 +14,9 @@ export class ScientificWorkService {
               @InjectRepository(UserEntity)
               private readonly userRepository: Repository<UserEntity>,
               @InjectRepository(KeyWordEntity)
-              private readonly keyWordRepository: Repository<KeyWordEntity>) {
+              private readonly keyWordRepository: Repository<KeyWordEntity>,
+              @InjectRepository(SourceEntity)
+              private readonly sourceRepository: Repository<SourceEntity>) {
   }
 
   async findByKeyWord(keyWord: string): Promise<ScientificWorkEntity[]> {
@@ -22,13 +24,32 @@ export class ScientificWorkService {
       {
         relations: ['scientificWorks'],
         where: {
-          title: keyWord,
+          title: Like('%' + keyWord + '%'),
         },
       },
     );
 
+    if (!result || !result.scientificWorks) {
+      throw new Error('Works not found');
+    }
+
     return result.scientificWorks;
 
+  }
+
+  async findBySource(source: string): Promise<ScientificWorkEntity[]> {
+    const result = await this.sourceRepository.findOne({
+      relations: ['scientificWork'],
+      where: {
+        link: Like('%' + source + '%'),
+      },
+    });
+
+    if (!result || !result.scientificWork) {
+      throw new Error('Works not found');
+    }
+
+    return result.scientificWork;
   }
 
   async create(work: WorkDto, userId: number) {

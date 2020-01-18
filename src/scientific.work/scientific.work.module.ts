@@ -7,10 +7,11 @@ import { ScientificWorkService } from './scientific.work.service';
 import { ScientificWorkController } from './scientific.work.controller';
 import { ScientificWorkEntity } from '../entities/scientific.work.entity';
 import { KeyWordEntity } from '../entities/key.word.entity';
+import { SourceEntity } from '../entities/sources.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([UserEntity, ScientificWorkEntity, KeyWordEntity])],
+    TypeOrmModule.forFeature([UserEntity, ScientificWorkEntity, KeyWordEntity, SourceEntity])],
   providers: [ScientificWorkService],
   controllers: [ScientificWorkController],
 })
