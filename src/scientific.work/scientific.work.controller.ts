@@ -2,6 +2,9 @@ import { Body, Controller, Get, Param, Post, Query, Request, UseGuards } from '@
 import { ScientificWorkService } from './scientific.work.service';
 import { WorkDto } from './dto/work.dto';
 import { AuthGuard } from '@nestjs/passport';
+import { ApiResponse } from '@nestjs/swagger';
+import { AccessTokenDto } from '../auth/dto/access.token.dto';
+import { ScientificWorkEntity } from '../entities/scientific.work.entity';
 
 @Controller('works')
 @UseGuards(AuthGuard('jwt'))
@@ -11,6 +14,8 @@ export class ScientificWorkController {
   }
 
   @Get('find')
+
+  @ApiResponse({ status: 200, description: 'OK', type: ScientificWorkEntity, isArray: true})
   async findByKeyWord(@Request() req, @Query('keyword') keyword: string) {
     return this.workService.findByKeyWord(keyword);
   }
