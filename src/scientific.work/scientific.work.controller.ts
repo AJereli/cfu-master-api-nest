@@ -46,6 +46,7 @@ export class ScientificWorkController {
   // }
 
   @Get(':id')
+  @ApiResponse({ status: 200, description: 'OK', type: ScientificWorkEntity, isArray: false})
   async getById(@Param('id') id: number) {
     return await this.workService.getById(id);
   }
