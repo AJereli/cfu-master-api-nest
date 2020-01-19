@@ -11,7 +11,9 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   setupSwagger(app);
-  app.setGlobalPrefix('api');
+  app.enableCors();
+  setupSwagger(app);
+  // app.setGlobalPrefix('api');
   app.useGlobalFilters(new GlobalExceptionsFilter());
 
   await app.listen(3000);
