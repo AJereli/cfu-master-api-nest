@@ -13,6 +13,7 @@ async function bootstrap() {
   setupSwagger(app);
   app.setGlobalPrefix('api');
   app.useGlobalFilters(new GlobalExceptionsFilter());
+
   await app.listen(3000);
 }
 function setupSwagger(app: INestApplication ) {

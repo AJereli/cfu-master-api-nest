@@ -19,6 +19,19 @@ export class ScientificWorkService {
               private readonly sourceRepository: Repository<SourceEntity>) {
   }
 
+  async getOwn(userId: number): Promise<ScientificWorkEntity[]> {
+    const result = await this.scientificWorkRepository.find({
+      relations: ['sources', 'keyWords', 'user'],
+      where: {
+        user: {
+          id: userId,
+        },
+      },
+    });
+
+    return result;
+  }
+
   async findByText(text: string): Promise<ScientificWorkEntity[]> {
     return this.scientificWorkRepository.createQueryBuilder('sw')
       .where('LOWER(CONCAT_WS(sw.actuals, sw."aimsAndTasks", sw.conclusions,\n' +

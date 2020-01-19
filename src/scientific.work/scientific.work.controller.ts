@@ -2,7 +2,7 @@ import { Body, Controller, Get, Param, Post, Query, Request, UseGuards } from '@
 import { ScientificWorkService } from './scientific.work.service';
 import { WorkDto } from './dto/work.dto';
 import { AuthGuard } from '@nestjs/passport';
-import { ApiResponse } from '@nestjs/swagger';
+import { ApiQuery, ApiResponse } from '@nestjs/swagger';
 import { AccessTokenDto } from '../auth/dto/access.token.dto';
 import { ScientificWorkEntity } from '../entities/scientific.work.entity';
 
@@ -13,7 +13,14 @@ export class ScientificWorkController {
 
   }
 
-  @Get('find')
+  @Get()
+  @ApiResponse({ status: 200, description: 'OK', type: ScientificWorkEntity, isArray: true})
+  async getOwn(@Request() req) {
+    const userId = req.user.userId;
+    return this.workService.getOwn(userId);
+  }
+
+  @Get('findByText')
   @ApiResponse({ status: 200, description: 'OK', type: ScientificWorkEntity, isArray: true})
   async find(@Query('text') text: string): Promise<ScientificWorkEntity[]> {
     return this.workService.findByText(text);
