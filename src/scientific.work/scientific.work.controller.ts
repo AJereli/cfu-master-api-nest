@@ -45,6 +45,11 @@ export class ScientificWorkController {
   //   return 'source';
   // }
 
+  @Get(':id')
+  async getById(@Param('id') id: number) {
+    return await this.workService.getById(id);
+  }
+
   @Post()
   async create(@Request() req, @Body() work: WorkDto) {
     return await this.workService.create(work, req.user.userId);

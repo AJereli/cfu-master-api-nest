@@ -51,7 +51,7 @@ export class ScientificWorkEntity {
   mainPart: string;
 
   @ApiProperty()
-  @Column({ nullable: false })
+  @Column({ nullable: true })
   programImplementation: string;
 
   @ApiProperty()

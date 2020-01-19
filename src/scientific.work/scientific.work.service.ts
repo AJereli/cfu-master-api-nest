@@ -101,6 +101,22 @@ export class ScientificWorkService {
     return this.scientificWorkRepository.save(workEntity);
   }
 
+  async getById(id: number) {
+    const work = await this.scientificWorkRepository.findOne({
+      relations: ['keyWords', 'sources'],
+      where: {
+        id,
+      },
+      },
+    );
+
+    if (!work) {
+      throw Error('Не найдено работы с таким id');
+    }
+
+    return work;
+  }
+
   async update(work: WorkDto, userId: number, workId: number) {
     const currentWork = await this.scientificWorkRepository.findOne({
       loadEagerRelations: true,
