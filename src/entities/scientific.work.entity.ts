@@ -11,6 +11,10 @@ export class ScientificWorkEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
+  @ApiProperty()
+  @Column({nullable: true})
+  director: string;
+
   @ManyToOne(type => UserEntity, user => user.scientificWorks)
   user: UserEntity;
 

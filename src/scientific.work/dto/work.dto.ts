@@ -17,6 +17,8 @@ export class WorkDto {
   @ApiModelProperty()
   programImplementation: string;
   @ApiModelProperty()
+  director:string;
+  @ApiModelProperty()
   conclusions: string;
   @ApiModelProperty()
   keyWords: KeyWordDto[];
